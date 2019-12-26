@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Wed Dec 18 14:07:07 KST 2019
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=Image-grouping-1.0.0.jar
+manifest.mergeall=true
+manifest.mainclass=com.roxy.image.Main
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=
+includes=
