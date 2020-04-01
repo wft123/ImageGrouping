@@ -17,9 +17,11 @@ public class VideoFileInfo implements FileInfo {
 	@Override
 	public Date getFileOriginDate(File file) throws Exception {
 		Metadata metadata = new Metadata();
-		new MP4Parser().parse(new FileInputStream(file), new BodyContentHandler(), metadata, new ParseContext());
+		FileInputStream fis = new FileInputStream(file);
+		new MP4Parser().parse(fis, new BodyContentHandler(), metadata, new ParseContext());
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(metadata.get(TikaCoreProperties.CREATED)));
+		fis.close();
 		if(cal.getTimeInMillis() > 0) {
 			cal.add(Calendar.HOUR, 9);
 			return cal.getTime();
