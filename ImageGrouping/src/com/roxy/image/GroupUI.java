@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 public class GroupUI extends JFrame implements WindowListener {
@@ -24,6 +25,7 @@ public class GroupUI extends JFrame implements WindowListener {
 	private ImageGrouping imageGrouping;
 	
 	// Text Field, Button, CheckBox
+	private JComboBox<String> combo;
 	private TextField srcText = new TextField(40);
 	private TextField targetText = new TextField(40);
 	public static TextArea logArea = new TextArea(5, 40);
@@ -52,10 +54,10 @@ public class GroupUI extends JFrame implements WindowListener {
 				}
 				
 				try {
-					imageGrouping.startGrouping(source, target);
+					imageGrouping.startGrouping(source, target, "move".equalsIgnoreCase(combo.getSelectedItem().toString()));
 					logArea.append("grouping complete!");
 				} catch (Exception e) {
-					openDialog("Error", "grouping fail! : " + e.getMessage());
+					openDialog("Error", "grouping fail! : " + e);
 					e.printStackTrace();
 				}
 			}
@@ -67,6 +69,9 @@ public class GroupUI extends JFrame implements WindowListener {
 		this.gbc = new GridBagConstraints();
 		this.imageGrouping = imageGrouping;
 		
+		String[] mode = {"copy", "move"};
+		this.combo = new JComboBox<String>(mode);
+		
 		this.setTitle("Image Grouping");
 		this.addWindowListener(this);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,14 +80,16 @@ public class GroupUI extends JFrame implements WindowListener {
 		gbc.fill= GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        
-        gbAdd(new Label("Source: ", Label.RIGHT), 0, 0, 1, 1);
-        gbAdd(srcText, 1, 0, 3, 1);
-        gbAdd(new Label("Target: ", Label.RIGHT), 0, 1, 1, 1);
-        gbAdd(targetText, 1, 1, 3, 1);
-        gbAdd(logArea, 0, 3, 4, 2);
-        gbAdd(exitButton, 0, 5, 2, 1);
-        gbAdd(startButton, 2, 5, 2, 1);
+                
+        gbAdd(new Label("Mode: ", Label.RIGHT), 0, 0, 1, 1);
+        gbAdd(combo, 1, 0, 3, 1);
+        gbAdd(new Label("Source: ", Label.RIGHT), 0, 1, 1, 1);
+        gbAdd(srcText, 1, 1, 3, 1);
+        gbAdd(new Label("Target: ", Label.RIGHT), 0, 2, 1, 1);
+        gbAdd(targetText, 1, 2, 3, 1);
+        gbAdd(logArea, 0, 4, 4, 2);
+        gbAdd(exitButton, 0, 6, 2, 1);
+        gbAdd(startButton, 2, 6, 2, 1);
 		
 //        logArea.setEnabled(false);
         logArea.setEditable(false);

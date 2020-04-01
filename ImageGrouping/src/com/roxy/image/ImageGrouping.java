@@ -19,19 +19,19 @@ import com.roxy.model.VideoFileInfo;
 
 public class ImageGrouping {
 	
-	public void startGrouping(String source, String target) throws Exception {
+	public void startGrouping(String source, String target, boolean isMove) throws Exception {
 		File dir = new File(source); 
 		File[] fileList = dir.listFiles();
 		for(File file : fileList) {
 			if(file.isFile()){
-				grouping(file, target);
+				grouping(file, target, isMove);
 			} else {
-				startGrouping(file.getAbsolutePath(), target);
+				startGrouping(file.getAbsolutePath(), target, isMove);
 			}
 		}
 	}
 	
-	private void grouping(File file, String targetRoot) throws Exception {
+	private void grouping(File file, String targetRoot, boolean isMove) throws Exception {
 		FileInfo fi = null;
 		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM");
 		SimpleDateFormat nameFormat = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -57,8 +57,11 @@ public class ImageGrouping {
 		Path target = Paths.get(targetRoot, format.format(originalDate), newFileName);
 		if(!target.getParent().toFile().exists()) target.getParent().toFile().mkdirs();
 		
-		//Files.move(path, Paths.get(target.toString(), path.getFileName().toString()), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
+		if(isMove) {
+			Files.move(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
+		} else {
+			Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
+		}
 		
 		FileTime fromMillis = FileTime.fromMillis(originalDate.getTime());
 		

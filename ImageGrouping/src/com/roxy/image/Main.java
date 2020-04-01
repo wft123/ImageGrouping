@@ -9,12 +9,12 @@ public class Main {
 			GroupUI frame = new GroupUI(ig);
 			
 			frame.pack();
-			frame.setSize(400, 200);
+			frame.setSize(400, 250);
 			frame.setVisible(true);
 			frame.setResizable(false);
 			frame.setLocationRelativeTo(null);
 		} else {
-			ig.startGrouping(args[0], args[1]);
+			ig.startGrouping(args[0], args[1], "move".equalsIgnoreCase(args[2]));
 		}
 		
 	}
